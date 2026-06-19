@@ -26,7 +26,7 @@ export default function LandingPage({ onNavigateToAuth, onNavigateToWorkspace, u
         <PrecisionTools />
         <DeepAnalytics />
         <WatchGrowth />
-        <Testimonials />
+        {/* <Testimonials /> */}
       </main>
       <Footer />
     </>
