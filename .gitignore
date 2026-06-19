@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+my-app/node_modules/
+my-app/dist/
+
+# Python cache
+__pycache__/
+*.pyc
+backend/__pycache__/
+
+# Environment files
+.env
+backend/.env
+my-app/.env
+
+# Agents config
+.agents/
+skills-lock.json
