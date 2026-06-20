@@ -225,12 +225,11 @@ if _extra:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origin_regex=r"https://speakflow.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 COACH_PROMPT = """You are an expert speech and communication coach.
 
 Input:
@@ -375,9 +374,7 @@ async def root():
         "message": "SpeakFlow API is running"
     }
 
-@app.options("/{path:path}")
-async def options_handler(path: str):
-    return {"status": "ok"}
+
     
 @app.post("/api/auth/signup")
 async def signup(req: SignupRequest):
