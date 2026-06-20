@@ -17,20 +17,9 @@ import pymongo
 from pymongo import MongoClient
 from fastapi.middleware.cors import CORSMiddleware
 
-origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "https://speakflow-jet.vercel.app",
-    "https://speakflow-pfcaz7go1-aditya4453s-projects.vercel.app",
-]
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
+
 
 # Load variables from .env file if present
 if os.path.exists(".env"):
@@ -224,10 +213,11 @@ class LoginRequest(BaseModel):
 app = FastAPI(title="SpeakFlow Speech Coach Backend")
 
 # Enable CORS for frontend querying
-_default_origins = [
-    "http://localhost:5173","http://localhost:3000",
-    "http://127.0.0.1:5173","http://127.0.0.1:3000",
-    "https://speakflow-jet.vercel.app"
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://speakflow-jet.vercel.app",
+    "https://speakflow-pfcaz7go1-aditya4453s-projects.vercel.app",
 ]
 _extra = os.environ.get("CORS_ORIGINS", "")
 if _extra:
@@ -235,7 +225,7 @@ if _extra:
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_default_origins,
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
