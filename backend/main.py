@@ -221,7 +221,7 @@ origins = [
 ]
 _extra = os.environ.get("CORS_ORIGINS", "")
 if _extra:
-    _default_origins += [o.strip() for o in _extra.split(",") if o.strip()]
+    origins += [o.strip() for o in _extra.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
