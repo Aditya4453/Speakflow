@@ -1,0 +1,14 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "speakflow",
+  "compatibility_date": "2026-06-20",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "my-app"
+  },
+  "compatibility_flags": [
+    "nodejs_compat"
+  ]
+}
