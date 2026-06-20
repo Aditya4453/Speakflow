@@ -375,6 +375,10 @@ async def root():
         "message": "SpeakFlow API is running"
     }
 
+@app.options("/{path:path}")
+async def options_handler(path: str):
+    return {"status": "ok"}
+    
 @app.post("/api/auth/signup")
 async def signup(req: SignupRequest):
     email = req.email.lower().strip()
