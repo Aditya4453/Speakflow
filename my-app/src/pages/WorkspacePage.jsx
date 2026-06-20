@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 const BASIC_TOPICS = [
   "The impact of social media on mental health",
   "How remote work is shaping the future of offices",
@@ -72,7 +74,7 @@ export default function WorkspacePage({ user, token, onLogout, onBackToHome, ini
   // Check backend health for config status & load recordings history on mount
   useEffect(() => {
     // 1. Check if backend has Gemini API key pre-configured
-    fetch('http://localhost:8000/api/health')
+    fetch(`${API_BASE}/api/health`)
       .then(res => res.json())
       .then(data => {
         if (data.gemini_configured) {
@@ -88,7 +90,7 @@ export default function WorkspacePage({ user, token, onLogout, onBackToHome, ini
 
     // 2. Fetch history of recordings from DB
     if (token) {
-      fetch('http://localhost:8000/api/recordings', {
+      fetch(`${API_BASE}/api/recordings`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -218,7 +220,7 @@ export default function WorkspacePage({ user, token, onLogout, onBackToHome, ini
           formData.append('file', audioBlob, 'speech.webm');
           formData.append('topic', topicMode === 'topic' ? currentTopic : '');
 
-          const backendResponse = await fetch('http://localhost:8000/api/analyze', {
+          const backendResponse = await fetch(`${API_BASE}/api/analyze`, {
             method: 'POST',
             headers: {
               'X-Gemini-API-Key': apiKey,
@@ -303,7 +305,7 @@ export default function WorkspacePage({ user, token, onLogout, onBackToHome, ini
 
   const handleDeleteRecording = async (id, url) => {
     try {
-      const response = await fetch(`http://localhost:8000/api/recordings/${id}`, {
+      const response = await fetch(`${API_BASE}/api/recordings/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`

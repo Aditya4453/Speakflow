@@ -209,13 +209,18 @@ class LoginRequest(BaseModel):
 app = FastAPI(title="SpeakFlow Speech Coach Backend")
 
 # Enable CORS for frontend querying
+_default_origins = [
+    "http://localhost:5173","http://localhost:3000",
+    "http://127.0.0.1:5173","http://127.0.0.1:3000",
+    "https://speakflow-jet.vercel.app"
+]
+_extra = os.environ.get("CORS_ORIGINS", "")
+if _extra:
+    _default_origins += [o.strip() for o in _extra.split(",") if o.strip()]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173","http://localhost:3000",
-        "http://127.0.0.1:5173","http://127.0.0.1:3000",
-        "https://speakflow-jet.vercel.app"
-    ],
+    allow_origins=_default_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -358,6 +363,13 @@ def upload_to_azure(file_bytes: bytes, original_filename: str, mime_type: str) -
         return ""
 
 # --- Authentication Routes ---
+@app.get("/")
+async def root():
+    return {
+        "status": "ok",
+        "message": "SpeakFlow API is running"
+    }
+    
 @app.post("/api/auth/signup")
 async def signup(req: SignupRequest):
     email = req.email.lower().strip()
@@ -542,7 +554,7 @@ async def analyze_audio(
         rec_doc = {
             "id": rec_id,
             "user_email": current_user,
-            "url": azure_url or f"blob:http://localhost:5173/{rec_id}",
+            "url": azure_url or "",
             "name": f"Recording #{len(db_get_recordings_for_user(current_user)) + 1}",
             "topic": topic if (topic and topic.strip()) else "General Speech",
             "timestamp": timestamp,
@@ -560,7 +572,7 @@ async def analyze_audio(
             "timestamp": rec_doc["timestamp"],
             "duration": rec_doc["duration"],
             "analysis": rec_doc["analysis"],
-            "audio_url": azure_url or f"blob:http://localhost:5173/{rec_id}",
+            "audio_url": azure_url or "",
             "candidates": [
                 {
                     "content": {
@@ -639,7 +651,7 @@ async def analyze_audio(
         rec_doc = {
             "id": rec_id,
             "user_email": current_user,
-            "url": azure_url or f"blob:http://localhost:5173/{rec_id}",
+            "url": azure_url or "",
             "name": f"Recording #{len(db_get_recordings_for_user(current_user)) + 1}",
             "topic": topic if (topic and topic.strip()) else "General Speech",
             "timestamp": timestamp,

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
+
 export default function AuthPage({ initialMode = 'login', onBackToHome, onAuthSuccess }) {
   const [isSignUp, setIsSignUp] = useState(initialMode === 'signup');
   const [name, setName] = useState('');
@@ -27,8 +29,8 @@ export default function AuthPage({ initialMode = 'login', onBackToHome, onAuthSu
     setIsLoading(true);
 
     const url = isSignUp 
-      ? 'http://localhost:8000/api/auth/signup' 
-      : 'http://localhost:8000/api/auth/login';
+      ? `${API_BASE}/api/auth/signup` 
+      : `${API_BASE}/api/auth/login`;
       
     const payload = isSignUp 
       ? { name, email, password } 

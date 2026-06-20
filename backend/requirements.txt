@@ -3,7 +3,10 @@ uvicorn>=0.28.0
 google-genai>=0.1.0
 python-multipart>=0.0.9
 azure-storage-blob>=12.20.0
-pymongo[srv]>=4.6.0
+# pymongo[srv]>=4.6.0
 bcrypt>=4.1.0
 pyjwt>=2.8.0
 
+pymongo==4.13.2
+dnspython>=2.6.1
+certifi>=2025.0.0
