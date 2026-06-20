@@ -15,7 +15,22 @@ import bcrypt
 import jwt
 import pymongo
 from pymongo import MongoClient
+from fastapi.middleware.cors import CORSMiddleware
 
+origins = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://speakflow-jet.vercel.app",
+    "https://speakflow-pfcaz7go1-aditya4453s-projects.vercel.app",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Load variables from .env file if present
 if os.path.exists(".env"):
@@ -369,7 +384,7 @@ async def root():
         "status": "ok",
         "message": "SpeakFlow API is running"
     }
-    
+
 @app.post("/api/auth/signup")
 async def signup(req: SignupRequest):
     email = req.email.lower().strip()
